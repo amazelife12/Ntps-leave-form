@@ -130,7 +130,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
   <header>
     <p class="kicker">楠梓國小家長專用</p>
     <h1>楠梓國小班級請假單</h1>
-    <p>由上往下填寫，最後一步完成後就結束，不用再回到這一頁。</p>
+    <p>由上往下填寫，至最後一步完成後就結束。</p>
   </header>
 
   <section aria-labelledby="h-type">
@@ -204,7 +204,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
 
   <section aria-labelledby="h-last" id="last" hidden>
     <h2 id="h-last">最後一步</h2>
-    <p class="notice">下面的表單在別的網站。填完不用回到這一頁，直接把填寫完成的畫面截圖傳給鄭老師就完成了。</p>
+    <p class="notice">下面的表單在別的網站。請把填寫完成的畫面截圖傳給鄭老師就完成了。</p>
     <div id="lastItems" style="display:flex;flex-direction:column;gap:10px"></div>
   </section>
 
@@ -286,7 +286,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
   function renderSteps() {
     var n = needs();
     var html = '<li>填寫請假資訊，複製後傳給鄭老師</li>';
-    if (n.lunch) html += '<li>最後填「午餐停餐申請」<small>請假 3 天以上需要，請於前一天中午 12:00 前提出。填完截圖給老師。</small></li>';
+    if (n.lunch) html += '<li>記得填「午餐停餐申請」<small>請假 3 天以上需要，請於前一天中午 12:00 前提出。填完截圖給老師。</small></li>';
     if (n.report) html += '<li>最後填「校園傳染病通報系統」<small>有發燒或確診時需要。填完截圖給老師。</small></li>';
     $("#steps").innerHTML = html;
     $("#count").textContent = (1 + (n.lunch ? 1 : 0) + (n.report ? 1 : 0)) + " 項";
