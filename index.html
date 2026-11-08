@@ -1,11 +1,11 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>✏️楠梓國小班級請假單</title>
+<title>楠梓國小班級請假單</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
 <style>
-/* Layout: 聯絡簿式單欄表單。先選類型，頁面即時列出該完成的項目，再填資訊，最後複製訊息。 */
+/* Layout: 聯絡簿式單欄表單。順序固定：選類型、填資訊、傳給老師，外部表單放最後，家長不必再回到本頁。 */
 :root {
   --paper: #f3f6fa;
   --card: #ffffff;
@@ -17,7 +17,6 @@
   --accent-soft: #e2ebf8;
   --stamp: #c8372d;
   --ok: #1d7a4b;
-  --ok-soft: #dff2e7;
   --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
   --font-display: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
   --radius: 10px;
@@ -26,13 +25,13 @@
   :root:not([data-theme="light"]) {
     --paper: #0f1626; --card: #17213a; --ink: #e7edf8; --muted: #9aaac6; --rule: #2a3a5c;
     --accent: #7fa8ee; --accent-ink: #0f1626; --accent-soft: #1d2d52; --stamp: #ff7a6e;
-    --ok: #6fd3a0; --ok-soft: #173a2b; color-scheme: dark;
+    --ok: #6fd3a0; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --paper: #0f1626; --card: #17213a; --ink: #e7edf8; --muted: #9aaac6; --rule: #2a3a5c;
   --accent: #7fa8ee; --accent-ink: #0f1626; --accent-soft: #1d2d52; --stamp: #ff7a6e;
-  --ok: #6fd3a0; --ok-soft: #173a2b; color-scheme: dark;
+  --ok: #6fd3a0; color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -61,7 +60,7 @@ header h1 { margin: 4px 0 6px; font-family: var(--font-display); font-size: 34px
 header p { margin: 0; color: var(--muted); font-size: 15px; background: var(--card); display: inline; padding: 0 4px 0 0; }
 
 section { display: flex; flex-direction: column; gap: 14px; }
-h2 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: .04em; }
+h2 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: .04em; scroll-margin-top: 12px; }
 .sub { margin: -6px 0 0; color: var(--muted); font-size: 14px; }
 
 fieldset { border: 0; padding: 0; margin: 0; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
@@ -78,22 +77,25 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
 .seg input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
 
 .count { display: inline-block; margin-left: 8px; padding: 1px 10px; border-radius: 99px; background: var(--accent); color: var(--accent-ink); font-size: 13px; font-weight: 700; vertical-align: 2px; }
-.todo { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.steps { margin: 0; padding: 14px 16px 14px 38px; background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); display: flex; flex-direction: column; gap: 8px; }
+.steps li { padding-left: 4px; }
+.steps li::marker { color: var(--accent); font-weight: 700; }
+.steps small { display: block; color: var(--muted); font-size: 13px; line-height: 1.5; }
+
 .item { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-.item.done { border-color: var(--ok); }
 .item h3 { margin: 0; font-size: 16px; font-weight: 700; }
 .item p { margin: 0; font-size: 14px; color: var(--muted); }
-.item .row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.tag { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); align-self: flex-start; letter-spacing: .06em; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 18px;
   border-radius: var(--radius); border: 0; background: var(--accent); color: var(--accent-ink);
-  font: inherit; font-weight: 700; text-decoration: none; cursor: pointer;
+  font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; align-self: flex-start;
 }
-.btn:focus-visible, .chk input:focus-visible, .field input:focus-visible, .field textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-.btn.ghost { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
-.chk { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; min-height: 44px; }
-.chk input { width: 20px; height: 20px; accent-color: var(--ok); }
-.tag { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); align-self: flex-start; letter-spacing: .06em; }
+.btn:focus-visible, .linkbtn:focus-visible, .field input:focus-visible, .field textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.notice { margin: 0; padding: 12px 14px; border-radius: var(--radius); background: var(--accent-soft); font-weight: 500; font-size: 15px; }
+
+.formhead { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.linkbtn { background: none; border: 0; padding: 0 4px; min-height: 44px; font: inherit; font-size: 14px; color: var(--muted); text-decoration: underline; cursor: pointer; }
 
 .form { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 18px 16px; display: flex; flex-direction: column; gap: 18px; }
 .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
@@ -104,7 +106,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
 }
 .field textarea { resize: vertical; min-height: 84px; }
 .dates { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.dates small { color: var(--muted); font-size: 12px; }
+.dates label { font-weight: 500; font-size: 14px; color: var(--muted); }
 @media (max-width: 420px) { .dates { grid-template-columns: 1fr; } }
 
 .out { display: flex; flex-direction: column; gap: 12px; }
@@ -112,6 +114,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
   width: 100%; min-height: 190px; padding: 14px; font: 15px/1.7 var(--font-body); color: var(--ink);
   background: var(--card); border: 1.5px dashed var(--accent); border-radius: var(--radius); resize: vertical;
 }
+.out .btn { align-self: stretch; }
 .copied { color: var(--ok); font-weight: 700; font-size: 14px; min-height: 1.5em; margin: 0; }
 
 .finish { display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: var(--radius); background: var(--accent-soft); }
@@ -121,14 +124,13 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
   font-weight: 900; font-size: 15px; line-height: 1.2; letter-spacing: .05em;
 }
 .finish p { margin: 0; font-weight: 500; }
-@media (prefers-reduced-motion: no-preference) { .item { transition: border-color .2s; } }
 </style>
 
 <div class="wrap">
   <header>
     <p class="kicker">楠梓國小家長專用</p>
     <h1>楠梓國小班級請假單</h1>
-    <p>先選請假類型，下方會列出這次需要完成的項目。</p>
+    <p>由上往下填寫，最後一步完成後就結束，不用再回到這一頁。</p>
   </header>
 
   <section aria-labelledby="h-type">
@@ -157,12 +159,15 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
   </section>
 
   <section aria-labelledby="h-todo">
-    <h2 id="h-todo">這次需要完成<span class="count" id="count">1 項</span></h2>
-    <ul class="todo" id="todo"></ul>
+    <h2 id="h-todo">這次的流程<span class="count" id="count">1 項</span></h2>
+    <ol class="steps" id="steps"></ol>
   </section>
 
   <section aria-labelledby="h-form">
-    <h2 id="h-form">請假資訊</h2>
+    <div class="formhead">
+      <h2 id="h-form">請假資訊</h2>
+      <button type="button" class="linkbtn" id="reset">清除重填</button>
+    </div>
     <div class="form">
       <div class="field">
         <label for="who">座號／姓名</label>
@@ -171,13 +176,13 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
       <div class="field">
         <span class="lab" id="dlab">請假日期</span>
         <div class="dates" role="group" aria-labelledby="dlab">
-          <div class="field"><input type="date" id="d1" aria-label="開始日期"><small>開始日</small></div>
-          <div class="field"><input type="date" id="d2" aria-label="結束日期"><small>結束日（只請一天可不填）</small></div>
+          <div class="field"><label for="d1">開始日</label><input type="date" id="d1"></div>
+          <div class="field"><label for="d2">結束日（只請一天可不填）</label><input type="date" id="d2"></div>
         </div>
       </div>
       <div class="field">
         <label for="why">請假原因</label>
-        <textarea id="why" placeholder="例：全家出遊／身體不適看醫生"></textarea>
+        <textarea id="why" placeholder="例：全家出遊／感冒看醫生"></textarea>
       </div>
       <fieldset>
         <legend style="color:var(--ink);font-weight:700;font-size:15px">作業是否需要放警衛室</legend>
@@ -190,16 +195,22 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
   </section>
 
   <section class="out" aria-labelledby="h-out">
-    <h2 id="h-out">請假訊息</h2>
-    <p class="sub">🔥內容會隨上方填寫即時更新，確認後複製貼給老師，才算是請假完成！</p>
+    <h2 id="h-out">傳給老師</h2>
+    <p class="sub">內容會隨上方填寫即時更新。確認後複製，貼給鄭老師。</p>
     <textarea id="msg" readonly aria-label="請假訊息預覽"></textarea>
     <button class="btn" id="copy" type="button">複製請假訊息</button>
     <p class="copied" id="copied" role="status"></p>
   </section>
 
+  <section aria-labelledby="h-last" id="last" hidden>
+    <h2 id="h-last">最後一步</h2>
+    <p class="notice">下面的表單在別的網站。填完不用回到這一頁，直接把填寫完成的畫面截圖傳給鄭老師就完成了。</p>
+    <div id="lastItems" style="display:flex;flex-direction:column;gap:10px"></div>
+  </section>
+
   <div class="finish">
     <div class="stamp" aria-hidden="true">家長<br>確認</div>
-    <p>全部填寫完成後，請截圖給老師，謝謝 😊</p>
+    <p id="finishText">傳給鄭老師後就完成了，謝謝 😊</p>
   </div>
 </div>
 
@@ -207,12 +218,19 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
 (function () {
   var LUNCH_URL = "https://forms.gle/cLhvQWdKdwa3FSXm8";
   var REPORT_URL = "https://cpmimicker07-cloud.github.io/ntpshealth/";
-  var state = { type: "事假", days: "short", fever: "no", lunchDone: false, reportDone: false };
+  var KEY = "class209-leave-v2";
+  var TTL = 24 * 60 * 60 * 1000;
+  var state = { type: "事假", days: "short", fever: "no" };
   var $ = function (s) { return document.querySelector(s); };
 
   function radio(name) {
     var el = document.querySelector('input[name="' + name + '"]:checked');
     return el ? el.value : "";
+  }
+  function setRadio(name, val) {
+    if (!val) return;
+    var el = document.querySelector('input[name="' + name + '"][value="' + val + '"]');
+    if (el) el.checked = true;
   }
   function fmt(v) {
     if (!v) return "";
@@ -232,28 +250,65 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     };
   }
 
-  function renderTodo() {
+  /* 填過的內容暫存在這支手機上 24 小時，頁面重新載入也不會消失 */
+  function save() {
+    try {
+      localStorage.setItem(KEY, JSON.stringify({
+        ts: Date.now(),
+        type: radio("type"), days: radio("days"), fever: radio("fever"), hw: radio("hw"),
+        who: $("#who").value, d1: $("#d1").value, d2: $("#d2").value, why: $("#why").value
+      }));
+    } catch (e) {}
+  }
+  function restore() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (!raw) return;
+      var s = JSON.parse(raw);
+      if (!s || !s.ts || Date.now() - s.ts > TTL) { localStorage.removeItem(KEY); return; }
+      setRadio("type", s.type); setRadio("days", s.days); setRadio("fever", s.fever); setRadio("hw", s.hw);
+      $("#who").value = s.who || "";
+      $("#d1").value = s.d1 || "";
+      $("#d2").value = s.d2 || "";
+      $("#why").value = s.why || "";
+    } catch (e) {}
+  }
+  function reset() {
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    ["#who", "#d1", "#d2", "#why"].forEach(function (s) { $(s).value = ""; });
+    Array.prototype.forEach.call(document.querySelectorAll('input[type="radio"]'), function (r) { r.checked = r.defaultChecked; });
+    $("#copied").textContent = "";
+    refresh();
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    $("#h-type").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  }
+
+  function renderSteps() {
     var n = needs();
+    var html = '<li>填寫請假資訊，複製後傳給鄭老師</li>';
+    if (n.lunch) html += '<li>最後填「午餐停餐申請」<small>請假 3 天以上需要，請於前一天中午 12:00 前提出。填完截圖給老師。</small></li>';
+    if (n.report) html += '<li>最後填「校園傳染病通報系統」<small>有發燒或確診時需要。填完截圖給老師。</small></li>';
+    $("#steps").innerHTML = html;
+    $("#count").textContent = (1 + (n.lunch ? 1 : 0) + (n.report ? 1 : 0)) + " 項";
+  }
+
+  function renderLast() {
+    var n = needs();
+    var box = $("#last");
+    if (!n.lunch && !n.report) { box.hidden = true; $("#lastItems").innerHTML = ""; return; }
     var html = "";
-    html += '<li class="item"><span class="tag">必填</span><h3>填寫請假資訊</h3>' +
-      '<p>座號／姓名、請假日期、請假原因、作業是否放警衛室。</p>' +
-      '<div class="row"><a class="btn ghost" href="#h-form" id="goForm">前往填寫</a></div></li>';
     if (n.lunch) {
-      html += '<li class="item' + (state.lunchDone ? " done" : "") + '"><span class="tag">請假 3 天以上</span>' +
-        '<h3>午餐停餐申請</h3>' +
+      html += '<div class="item"><span class="tag">請假 3 天以上</span><h3>午餐停餐申請</h3>' +
         '<p>目前國小學童午餐全面免費供應，但為了避免資源浪費及珍惜食物，請假三天以上，請於前一天中午 12:00 前提出申請，以利廚房作業。</p>' +
-        '<div class="row"><a class="btn" href="' + LUNCH_URL + '" target="_blank" rel="noopener">開啟停餐登記表單</a>' +
-        '<label class="chk"><input type="checkbox" data-k="lunchDone"' + (state.lunchDone ? " checked" : "") + '>我已填寫完成</label></div></li>';
+        '<a class="btn" href="' + LUNCH_URL + '" target="_blank" rel="noopener">開啟停餐登記表單</a></div>';
     }
     if (n.report) {
-      html += '<li class="item' + (state.reportDone ? " done" : "") + '"><span class="tag">發燒／傳染病</span>' +
-        '<h3>校園傳染病通報系統</h3>' +
+      html += '<div class="item"><span class="tag">發燒／傳染病</span><h3>校園傳染病通報系統</h3>' +
         '<p>孩子有發燒，或確診腸病毒、流感等校園傳染病，請家長協助填寫通報。</p>' +
-        '<div class="row"><a class="btn" href="' + REPORT_URL + '" target="_blank" rel="noopener">開啟傳染病通報系統</a>' +
-        '<label class="chk"><input type="checkbox" data-k="reportDone"' + (state.reportDone ? " checked" : "") + '>我已填寫完成</label></div></li>';
+        '<a class="btn" href="' + REPORT_URL + '" target="_blank" rel="noopener">開啟傳染病通報系統</a></div>';
     }
-    $("#todo").innerHTML = html;
-    $("#count").textContent = (1 + (n.lunch ? 1 : 0) + (n.report ? 1 : 0)) + " 項";
+    $("#lastItems").innerHTML = html;
+    box.hidden = false;
   }
 
   function buildMsg() {
@@ -266,9 +321,10 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
       "3.請假原因：" + $("#why").value.trim(),
       "4.作業是否需要放警衛室：" + radio("hw")
     ];
-    if (n.lunch) lines.push("午餐停餐申請：" + (state.lunchDone ? "已填寫 ✅" : "尚未填寫"));
-    if (n.report) lines.push("傳染病通報系統：" + (state.reportDone ? "已填寫 ✅" : "尚未填寫"));
+    if (n.lunch) lines.push("午餐停餐申請：稍後填寫，填完截圖給老師");
+    if (n.report) lines.push("傳染病通報系統：稍後填寫，填完截圖給老師");
     $("#msg").value = lines.join("\n");
+    save();
   }
 
   function refresh() {
@@ -276,23 +332,33 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     state.days = radio("days");
     state.fever = state.type === "病假" ? radio("fever") : "no";
     $("#feverSet").hidden = state.type !== "病假";
-    renderTodo();
+    var n = needs();
+    $("#finishText").textContent = (n.lunch || n.report)
+      ? "傳給鄭老師，再完成最後一步並截圖給老師，就全部完成了，謝謝 😊"
+      : "傳給鄭老師後就完成了，謝謝 😊";
+    renderSteps();
+    renderLast();
     buildMsg();
   }
 
   document.addEventListener("change", function (e) {
     var t = e.target;
     if (t.matches('input[name="type"], input[name="days"], input[name="fever"]')) { refresh(); return; }
-    if (t.matches("[data-k]")) { state[t.getAttribute("data-k")] = t.checked; renderTodo(); buildMsg(); return; }
-    if (t.matches('input[name="hw"], #d1, #d2')) { buildMsg(); }
+    if (t.matches('input[name="hw"], #d1, #d2')) buildMsg();
   });
   document.addEventListener("input", function (e) {
     if (e.target.matches("#who, #why")) buildMsg();
   });
+  $("#reset").addEventListener("click", reset);
 
   $("#copy").addEventListener("click", function () {
     var ta = $("#msg"), out = $("#copied");
-    function ok() { out.textContent = "已複製，可以貼給老師了。"; }
+    var n = needs();
+    function ok() {
+      out.textContent = (n.lunch || n.report)
+        ? "已複製，貼給老師後，請接著做下方的「最後一步」。"
+        : "已複製，可以貼給老師了。";
+    }
     function fallback() {
       ta.focus(); ta.select();
       out.textContent = "請長按已選取的文字，選擇「拷貝」。";
@@ -302,6 +368,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     } catch (err) { fallback(); }
   });
 
+  restore();
   refresh();
 })();
 </script>
