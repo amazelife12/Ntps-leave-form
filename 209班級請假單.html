@@ -1,0 +1,309 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>209班級請假單</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Layout: 聯絡簿式單欄表單。先選類型，頁面即時列出該完成的項目，再填資訊，最後複製訊息。 */
+:root {
+  --paper: #f3f6fa;
+  --card: #ffffff;
+  --ink: #17233a;
+  --muted: #5b6b85;
+  --rule: #d3dcea;
+  --accent: #1f4e9c;
+  --accent-ink: #ffffff;
+  --accent-soft: #e2ebf8;
+  --stamp: #c8372d;
+  --ok: #1d7a4b;
+  --ok-soft: #dff2e7;
+  --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --font-display: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0f1626; --card: #17213a; --ink: #e7edf8; --muted: #9aaac6; --rule: #2a3a5c;
+    --accent: #7fa8ee; --accent-ink: #0f1626; --accent-soft: #1d2d52; --stamp: #ff7a6e;
+    --ok: #6fd3a0; --ok-soft: #173a2b; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0f1626; --card: #17213a; --ink: #e7edf8; --muted: #9aaac6; --rule: #2a3a5c;
+  --accent: #7fa8ee; --accent-ink: #0f1626; --accent-soft: #1d2d52; --stamp: #ff7a6e;
+  --ok: #6fd3a0; --ok-soft: #173a2b; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 48px;
+}
+.wrap { max-width: 620px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+
+header {
+  padding: 22px 18px 18px;
+  border-radius: var(--radius);
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 31px, var(--rule) 31px 32px),
+    var(--card);
+  border: 1px solid var(--rule);
+}
+header .kicker { margin: 0; font-size: 13px; letter-spacing: .12em; color: var(--muted); font-weight: 500; }
+header h1 { margin: 4px 0 6px; font-family: var(--font-display); font-size: 34px; line-height: 1.2; font-weight: 900; letter-spacing: .04em; text-wrap: balance; }
+header p { margin: 0; color: var(--muted); font-size: 15px; background: var(--card); display: inline; padding: 0 4px 0 0; }
+
+section { display: flex; flex-direction: column; gap: 14px; }
+h2 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: .04em; }
+.sub { margin: -6px 0 0; color: var(--muted); font-size: 14px; }
+
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; margin-bottom: 8px; }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.seg label { position: relative; }
+.seg input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.seg span {
+  display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 8px 10px;
+  border: 1.5px solid var(--rule); background: var(--card); border-radius: var(--radius);
+  font-weight: 500; text-align: center; line-height: 1.35;
+}
+.seg input:checked + span { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+.seg input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.count { display: inline-block; margin-left: 8px; padding: 1px 10px; border-radius: 99px; background: var(--accent); color: var(--accent-ink); font-size: 13px; font-weight: 700; vertical-align: 2px; }
+.todo { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.item { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.item.done { border-color: var(--ok); }
+.item h3 { margin: 0; font-size: 16px; font-weight: 700; }
+.item p { margin: 0; font-size: 14px; color: var(--muted); }
+.item .row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 18px;
+  border-radius: var(--radius); border: 0; background: var(--accent); color: var(--accent-ink);
+  font: inherit; font-weight: 700; text-decoration: none; cursor: pointer;
+}
+.btn:focus-visible, .chk input:focus-visible, .field input:focus-visible, .field textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.btn.ghost { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+.chk { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; min-height: 44px; }
+.chk input { width: 20px; height: 20px; accent-color: var(--ok); }
+.tag { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); align-self: flex-start; letter-spacing: .06em; }
+
+.form { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 18px 16px; display: flex; flex-direction: column; gap: 18px; }
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field > label, .field > .lab { font-weight: 700; font-size: 15px; }
+.field input[type="text"], .field input[type="date"], .field textarea {
+  width: 100%; min-height: 46px; padding: 9px 12px; font: inherit; color: var(--ink);
+  background: var(--paper); border: 1.5px solid var(--rule); border-radius: 8px;
+}
+.field textarea { resize: vertical; min-height: 84px; }
+.dates { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.dates small { color: var(--muted); font-size: 12px; }
+@media (max-width: 420px) { .dates { grid-template-columns: 1fr; } }
+
+.out { display: flex; flex-direction: column; gap: 12px; }
+.out textarea {
+  width: 100%; min-height: 190px; padding: 14px; font: 15px/1.7 var(--font-body); color: var(--ink);
+  background: var(--card); border: 1.5px dashed var(--accent); border-radius: var(--radius); resize: vertical;
+}
+.copied { color: var(--ok); font-weight: 700; font-size: 14px; min-height: 1.5em; margin: 0; }
+
+.finish { display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: var(--radius); background: var(--accent-soft); }
+.stamp {
+  flex: none; width: 64px; height: 64px; display: grid; place-items: center; text-align: center;
+  border: 2.5px solid var(--stamp); color: var(--stamp); border-radius: 8px; transform: rotate(-6deg);
+  font-weight: 900; font-size: 15px; line-height: 1.2; letter-spacing: .05em;
+}
+.finish p { margin: 0; font-weight: 500; }
+@media (prefers-reduced-motion: no-preference) { .item { transition: border-color .2s; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="kicker">209班　鄭老師　家長專用</p>
+    <h1>209班級請假單</h1>
+    <p>先選請假類型，下方會列出這次需要完成的項目。</p>
+  </header>
+
+  <section aria-labelledby="h-type">
+    <h2 id="h-type">請假類型</h2>
+    <fieldset>
+      <legend>請假原因</legend>
+      <div class="seg">
+        <label><input type="radio" name="type" value="事假" checked><span>事假</span></label>
+        <label><input type="radio" name="type" value="病假"><span>病假／一般病假</span></label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>請假天數</legend>
+      <div class="seg">
+        <label><input type="radio" name="days" value="short" checked><span>1–2 天</span></label>
+        <label><input type="radio" name="days" value="long"><span>3 天以上</span></label>
+      </div>
+    </fieldset>
+    <fieldset id="feverSet" hidden>
+      <legend>孩子有發燒，或確診腸病毒、流感等校園傳染病嗎？</legend>
+      <div class="seg">
+        <label><input type="radio" name="fever" value="no" checked><span>沒有</span></label>
+        <label><input type="radio" name="fever" value="yes"><span>有（已發燒／已確診）</span></label>
+      </div>
+    </fieldset>
+  </section>
+
+  <section aria-labelledby="h-todo">
+    <h2 id="h-todo">這次需要完成<span class="count" id="count">1 項</span></h2>
+    <ul class="todo" id="todo"></ul>
+  </section>
+
+  <section aria-labelledby="h-form">
+    <h2 id="h-form">請假資訊</h2>
+    <div class="form">
+      <div class="field">
+        <label for="who">座號／姓名</label>
+        <input type="text" id="who" placeholder="例：12號 王小明" autocomplete="off">
+      </div>
+      <div class="field">
+        <span class="lab" id="dlab">請假日期</span>
+        <div class="dates" role="group" aria-labelledby="dlab">
+          <div class="field"><input type="date" id="d1" aria-label="開始日期"><small>開始日</small></div>
+          <div class="field"><input type="date" id="d2" aria-label="結束日期"><small>結束日（只請一天可不填）</small></div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="why">請假原因</label>
+        <textarea id="why" placeholder="例：全家出遊／感冒看醫生"></textarea>
+      </div>
+      <fieldset>
+        <legend style="color:var(--ink);font-weight:700;font-size:15px">作業是否需要放警衛室</legend>
+        <div class="seg">
+          <label><input type="radio" name="hw" value="需要"><span>需要</span></label>
+          <label><input type="radio" name="hw" value="不需要"><span>不需要</span></label>
+        </div>
+      </fieldset>
+    </div>
+  </section>
+
+  <section class="out" aria-labelledby="h-out">
+    <h2 id="h-out">請假訊息</h2>
+    <p class="sub">內容會隨上方填寫即時更新，確認後複製貼給老師。</p>
+    <textarea id="msg" readonly aria-label="請假訊息預覽"></textarea>
+    <button class="btn" id="copy" type="button">複製請假訊息</button>
+    <p class="copied" id="copied" role="status"></p>
+  </section>
+
+  <div class="finish">
+    <div class="stamp" aria-hidden="true">家長<br>確認</div>
+    <p>全部填寫完成後，請截圖給鄭老師，謝謝 😊</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  var LUNCH_URL = "https://forms.gle/cLhvQWdKdwa3FSXm8";
+  var REPORT_URL = "https://cpmimicker07-cloud.github.io/ntpshealth/";
+  var state = { type: "事假", days: "short", fever: "no", lunchDone: false, reportDone: false };
+  var $ = function (s) { return document.querySelector(s); };
+
+  function radio(name) {
+    var el = document.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : "";
+  }
+  function fmt(v) {
+    if (!v) return "";
+    var p = v.split("-").map(Number);
+    var w = "日一二三四五六"[new Date(p[0], p[1] - 1, p[2]).getDay()];
+    return p[1] + "/" + p[2] + "（週" + w + "）";
+  }
+  function dateText() {
+    var a = fmt($("#d1").value), b = fmt($("#d2").value);
+    if (a && b && $("#d1").value !== $("#d2").value) return a + "～" + b;
+    return a || b;
+  }
+  function needs() {
+    return {
+      lunch: state.days === "long",
+      report: state.type === "病假" && state.fever === "yes"
+    };
+  }
+
+  function renderTodo() {
+    var n = needs();
+    var html = "";
+    html += '<li class="item"><span class="tag">必填</span><h3>填寫請假資訊</h3>' +
+      '<p>座號／姓名、請假日期、請假原因、作業是否放警衛室。</p>' +
+      '<div class="row"><a class="btn ghost" href="#h-form" id="goForm">前往填寫</a></div></li>';
+    if (n.lunch) {
+      html += '<li class="item' + (state.lunchDone ? " done" : "") + '"><span class="tag">請假 3 天以上</span>' +
+        '<h3>午餐停餐申請</h3>' +
+        '<p>目前國小學童午餐全面免費供應，但為了避免資源浪費及珍惜食物，請假三天以上，請於前一天中午 12:00 前提出申請，以利廚房作業。</p>' +
+        '<div class="row"><a class="btn" href="' + LUNCH_URL + '" target="_blank" rel="noopener">開啟停餐登記表單</a>' +
+        '<label class="chk"><input type="checkbox" data-k="lunchDone"' + (state.lunchDone ? " checked" : "") + '>我已填寫完成</label></div></li>';
+    }
+    if (n.report) {
+      html += '<li class="item' + (state.reportDone ? " done" : "") + '"><span class="tag">發燒／傳染病</span>' +
+        '<h3>校園傳染病通報系統</h3>' +
+        '<p>孩子有發燒，或確診腸病毒、流感等校園傳染病，請家長協助填寫通報。</p>' +
+        '<div class="row"><a class="btn" href="' + REPORT_URL + '" target="_blank" rel="noopener">開啟傳染病通報系統</a>' +
+        '<label class="chk"><input type="checkbox" data-k="reportDone"' + (state.reportDone ? " checked" : "") + '>我已填寫完成</label></div></li>';
+    }
+    $("#todo").innerHTML = html;
+    $("#count").textContent = (1 + (n.lunch ? 1 : 0) + (n.report ? 1 : 0)) + " 項";
+  }
+
+  function buildMsg() {
+    var n = needs();
+    var head = "【" + state.type + "・" + (state.days === "long" ? "3天以上" : "1-2天") + (n.report ? "・發燒/傳染病" : "") + "】";
+    var lines = [
+      head,
+      "1.座號/姓名：" + $("#who").value.trim(),
+      "2.請假日期：" + dateText(),
+      "3.請假原因：" + $("#why").value.trim(),
+      "4.作業是否需要放警衛室：" + radio("hw")
+    ];
+    if (n.lunch) lines.push("午餐停餐申請：" + (state.lunchDone ? "已填寫 ✅" : "尚未填寫"));
+    if (n.report) lines.push("傳染病通報系統：" + (state.reportDone ? "已填寫 ✅" : "尚未填寫"));
+    $("#msg").value = lines.join("\n");
+  }
+
+  function refresh() {
+    state.type = radio("type");
+    state.days = radio("days");
+    state.fever = state.type === "病假" ? radio("fever") : "no";
+    $("#feverSet").hidden = state.type !== "病假";
+    renderTodo();
+    buildMsg();
+  }
+
+  document.addEventListener("change", function (e) {
+    var t = e.target;
+    if (t.matches('input[name="type"], input[name="days"], input[name="fever"]')) { refresh(); return; }
+    if (t.matches("[data-k]")) { state[t.getAttribute("data-k")] = t.checked; renderTodo(); buildMsg(); return; }
+    if (t.matches('input[name="hw"], #d1, #d2')) { buildMsg(); }
+  });
+  document.addEventListener("input", function (e) {
+    if (e.target.matches("#who, #why")) buildMsg();
+  });
+
+  $("#copy").addEventListener("click", function () {
+    var ta = $("#msg"), out = $("#copied");
+    function ok() { out.textContent = "已複製，可以貼給老師了。"; }
+    function fallback() {
+      ta.focus(); ta.select();
+      out.textContent = "請長按已選取的文字，選擇「拷貝」。";
+    }
+    try {
+      navigator.clipboard.writeText(ta.value).then(ok, fallback);
+    } catch (err) { fallback(); }
+  });
+
+  refresh();
+})();
+</script>
+
+</body></html>
