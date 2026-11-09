@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>🌸楠梓國小班級請假單🌸</title>
+<title>楠梓國小班級請假單</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -74,6 +74,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
   border: 1.5px solid var(--rule); background: var(--card); border-radius: var(--radius);
   font-weight: 500; text-align: center; line-height: 1.35;
 }
+.seg .ico { font-weight: 400; font-size: 24px; line-height: 1; margin-right: 8px; flex: none; }
 .seg input:checked + span { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 700; }
 .seg input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
 
@@ -130,7 +131,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
 <div class="wrap">
   <header>
     <p class="kicker">楠梓國小家長專用</p>
-    <h1>🌸楠梓國小班級請假單🌸</h1>
+    <h1>楠梓國小班級請假單</h1>
     <p>由上往下填寫，直到最後一步完成，才算完整請假。</p>
   </header>
 
@@ -139,8 +140,8 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     <fieldset>
       <legend>請假原因</legend>
       <div class="seg">
-        <label><input type="radio" name="type" value="🌱事假" checked><span>🌱事假</span></label>
-        <label><input type="radio" name="type" value="🌻病假"><span>🌻一般病假／流行性傳染病病假</span></label>
+        <label><input type="radio" name="type" value="事假" checked><span><b class="ico" aria-hidden="true">🎈</b>事假</span></label>
+        <label><input type="radio" name="type" value="病假"><span><b class="ico" aria-hidden="true">🤒</b>病假／一般病假</span></label>
       </div>
     </fieldset>
     <fieldset>
@@ -210,7 +211,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
 
   <section aria-labelledby="h-last" id="last" hidden>
     <h2 id="h-last">最後一步</h2>
-    <p class="notice" id="lastNotice">下面的表單在別的網站，填寫完成的畫面截圖傳給老師就完成了。若有填報困難，請洽導師。</p>
+    <p class="notice" id="lastNotice">下面的表單在別的網站。填完不用回到這一頁，直接把填寫完成的畫面截圖傳給老師就完成了。若有填報困難，請洽導師。</p>
     <div id="lastItems" style="display:flex;flex-direction:column;gap:10px"></div>
   </section>
 
@@ -307,8 +308,8 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
   function renderSteps() {
     var n = needs();
     var html = '<li>填寫請假資訊，複製後傳給老師</li>';
-    if (n.lunch) html += '<li>請填「午餐停餐申請」<small>請假 3 天以上需要，請於前一天中午 12:00 前提出。填完截圖給老師，若有填報困難，請洽導師。</small></li>';
-    if (n.report) html += '<li>最後填「校園傳染病通報系統」<small>有發燒或確診時需要。填完截圖給老師，若有填報困難，請洽導師。</small></li>';
+    if (n.lunch) html += '<li>請填「午餐停餐申請」，並截圖傳給老師<small>請假 3 天以上需要，請於前一天中午 12:00 前提出。若有填報困難，請洽導師。</small></li>';
+    if (n.report) html += '<li>最後填「校園傳染病通報系統」，並截圖傳給老師<small>有發燒或確診時需要。若有填報困難，請洽導師。</small></li>';
     if (n.paper) html += '<li>事假超過 5 天，另填紙本假單<small>請洽導師拿紙本假單。</small></li>';
     else if (state.type === "事假" && state.days === "long") html += '<li>若事假超過 5 天，需另填紙本假單<small>請洽導師拿紙本假單。填好日期後，這裡會自動判斷。</small></li>';
     $("#steps").innerHTML = html;
