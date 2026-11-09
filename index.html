@@ -300,7 +300,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
 
   function renderSteps() {
     var n = needs();
-    var html = '<li>填寫請假資訊，複製後傳給鄭老師</li>';
+    var html = '<li>填寫請假資訊，複製後傳給老師</li>';
     if (n.lunch) html += '<li>最後填「午餐停餐申請」<small>請假 3 天以上需要，請於前一天中午 12:00 前提出。填完截圖給老師。</small></li>';
     if (n.report) html += '<li>最後填「校園傳染病通報系統」<small>有發燒或確診時需要。填完截圖給老師。</small></li>';
     $("#steps").innerHTML = html;
