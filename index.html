@@ -5,7 +5,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
 <style>
-/* Layout: 聯絡簿式單欄表單。順序固定：選類型、填資訊、傳給老師，外部表單放最。 */
+/* Layout: 聯絡簿式單欄表單。順序固定：選類型、填資訊、傳給老師，外部表單放最後，家長不必再回到本頁。 */
 :root {
   --paper: #f3f6fa;
   --card: #ffffff;
@@ -131,7 +131,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
   <header>
     <p class="kicker">楠梓國小家長專用</p>
     <h1>楠梓國小班級請假單</h1>
-    <p>請依照順序由上往下填寫，直到最後一步完成，才算完整請假。</p>
+    <p>由上往下填寫，最後一步完成後就結束，不用再回到這一頁。</p>
   </header>
 
   <section aria-labelledby="h-type">
@@ -152,7 +152,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
       </div>
     </fieldset>
     <fieldset id="feverSet" hidden>
-      <legend>孩子有發燒，或確診腸病毒、流感、登革熱、諾羅、水痘等校園傳染病嗎？</legend>
+      <legend>孩子有發燒，或確診腸病毒、流感等校園傳染病嗎？</legend>
       <div class="seg">
         <label><input type="radio" name="fever" value="no" checked><span>沒有</span></label>
         <label><input type="radio" name="fever" value="yes"><span>有（已發燒／已確診）</span></label>
@@ -173,7 +173,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     <div class="form">
       <div class="field">
         <label for="who">座號／姓名</label>
-        <input type="text" id="who" placeholder="例：30號 王小楠" autocomplete="off">
+        <input type="text" id="who" placeholder="例：12號 王小明" autocomplete="off">
       </div>
       <div class="field">
         <span class="lab" id="dlab">請假日期</span>
@@ -188,7 +188,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
       </div>
       <div class="field">
         <label for="why">請假原因</label>
-        <textarea id="why" placeholder="例：全家出遊／請假看醫生"></textarea>
+        <textarea id="why" placeholder="例：全家出遊／感冒看醫生"></textarea>
       </div>
       <fieldset>
         <legend style="color:var(--ink);font-weight:700;font-size:15px">作業是否需要放警衛室</legend>
@@ -210,7 +210,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
 
   <section aria-labelledby="h-last" id="last" hidden>
     <h2 id="h-last">最後一步</h2>
-    <p class="notice">下面的表單在別的網站，填完後把完成的畫面截圖傳給老師就完成了。</p>
+    <p class="notice" id="lastNotice">下面的表單在別的網站。填完不用回到這一頁，直接把填寫完成的畫面截圖傳給老師就完成了。</p>
     <div id="lastItems" style="display:flex;flex-direction:column;gap:10px"></div>
   </section>
 
@@ -256,8 +256,14 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     if (a && b && $("#d1").value !== $("#d2").value) return a + "～" + b;
     return a || b;
   }
+  function spanDays() {
+    var a = $("#d1").value, b = $("#d2").value;
+    if (!a || !b) return 0;
+    return Math.round((new Date(b + "T00:00:00") - new Date(a + "T00:00:00")) / 864e5) + 1;
+  }
   function needs() {
     return {
+      paper: state.type === "事假" && state.days === "long" && spanDays() > 5,
       lunch: state.days === "long",
       report: state.type === "病假" && state.fever === "yes"
     };
@@ -303,15 +309,22 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     var html = '<li>填寫請假資訊，複製後傳給老師</li>';
     if (n.lunch) html += '<li>最後填「午餐停餐申請」<small>請假 3 天以上需要，請於前一天中午 12:00 前提出。填完截圖給老師。</small></li>';
     if (n.report) html += '<li>最後填「校園傳染病通報系統」<small>有發燒或確診時需要。填完截圖給老師。</small></li>';
+    if (n.paper) html += '<li>事假超過 5 天，另填紙本假單<small>請洽導師拿紙本假單。</small></li>';
+    else if (state.type === "事假" && state.days === "long") html += '<li>若事假超過 5 天，需另填紙本假單<small>請洽導師拿紙本假單。填好日期後，這裡會自動判斷。</small></li>';
     $("#steps").innerHTML = html;
-    $("#count").textContent = (1 + (n.lunch ? 1 : 0) + (n.report ? 1 : 0)) + " 項";
+    $("#count").textContent = (1 + (n.lunch ? 1 : 0) + (n.report ? 1 : 0) + (n.paper ? 1 : 0)) + " 項";
   }
 
   function renderLast() {
     var n = needs();
     var box = $("#last");
-    if (!n.lunch && !n.report) { box.hidden = true; $("#lastItems").innerHTML = ""; return; }
+    if (!n.lunch && !n.report && !n.paper) { box.hidden = true; $("#lastItems").innerHTML = ""; return; }
+    $("#lastNotice").hidden = !(n.lunch || n.report);
     var html = "";
+    if (n.paper) {
+      html += '<div class="item"><span class="tag">事假超過 5 天</span><h3>紙本假單</h3>' +
+        '<p>事假超過 5 天，需要另外填寫紙本假單。請洽導師拿紙本假單，填寫後交回導師。</p></div>';
+    }
     if (n.lunch) {
       html += '<div class="item"><span class="tag">請假 3 天以上</span><h3>午餐停餐申請</h3>' +
         '<p>目前國小學童午餐全面免費供應，但為了避免資源浪費及珍惜食物，請假三天以上，請於前一天中午 12:00 前提出申請，以利廚房作業。</p>' +
@@ -338,6 +351,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     ];
     if (n.lunch) lines.push("午餐停餐申請：稍後填寫，填完截圖給老師");
     if (n.report) lines.push("傳染病通報系統：稍後填寫，填完截圖給老師");
+    if (n.paper) lines.push("事假超過5天：需另填紙本假單，向導師領取");
     $("#msg").value = lines.join("\n");
     save();
   }
@@ -352,8 +366,8 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     $("#d2wrap").hidden = part;
     $("#d1l").textContent = part ? "請假日" : "開始日";
     var n = needs();
-    $("#finishText").textContent = (n.lunch || n.report)
-      ? "傳給老師，完成表單並截圖給老師，就全部完成了，謝謝 😊"
+    $("#finishText").textContent = (n.lunch || n.report || n.paper)
+      ? "傳給老師，再完成最後一步並截圖給老師，就全部完成了，謝謝 😊"
       : "傳給老師後就完成了，謝謝 😊";
     renderSteps();
     renderLast();
@@ -363,7 +377,8 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
   document.addEventListener("change", function (e) {
     var t = e.target;
     if (t.matches('input[name="type"], input[name="days"], input[name="fever"]')) { refresh(); return; }
-    if (t.matches('input[name="hw"], #d1, #d2, #t1, #t2')) buildMsg();
+    if (t.matches("#d1, #d2")) { refresh(); return; }
+    if (t.matches('input[name="hw"], #t1, #t2')) buildMsg();
   });
   document.addEventListener("input", function (e) {
     if (e.target.matches("#who, #why")) buildMsg();
