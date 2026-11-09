@@ -5,7 +5,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
 <style>
-/* Layout: 聯絡簿式單欄表單。順序固定：選類型、填資訊、傳給老師，外部表單放最後，家長不必再回到本頁。 */
+/* Layout: 聯絡簿式單欄表單。順序固定：選類型、填資訊、傳給老師，外部表單放最。 */
 :root {
   --paper: #f3f6fa;
   --card: #ffffff;
@@ -131,7 +131,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
   <header>
     <p class="kicker">楠梓國小家長專用</p>
     <h1>楠梓國小班級請假單</h1>
-    <p>由上往下填寫，最後一步完成後就結束，不用再回到這一頁。</p>
+    <p>請依照順序由上往下填寫，最後一步完成後才結束。</p>
   </header>
 
   <section aria-labelledby="h-type">
@@ -152,7 +152,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
       </div>
     </fieldset>
     <fieldset id="feverSet" hidden>
-      <legend>孩子有發燒，或確診腸病毒、流感等校園傳染病嗎？</legend>
+      <legend>孩子有發燒，或確診腸病毒、流感、登革熱、諾羅、水痘等校園傳染病嗎？</legend>
       <div class="seg">
         <label><input type="radio" name="fever" value="no" checked><span>沒有</span></label>
         <label><input type="radio" name="fever" value="yes"><span>有（已發燒／已確診）</span></label>
