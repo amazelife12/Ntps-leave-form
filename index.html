@@ -82,7 +82,8 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
 .steps { margin: 0; padding: 14px 16px 14px 38px; background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); display: flex; flex-direction: column; gap: 8px; }
 .steps li { padding-left: 4px; }
 .steps li::marker { color: var(--accent); font-weight: 700; }
-.steps li.star::marker { content: "* "; color: var(--stamp); font-weight: 700; }
+.steps li.star { list-style: none; position: relative; }
+.steps li.star .mk { position: absolute; left: -1.25em; top: 0; color: var(--stamp); font-weight: 900; }
 .steps small { display: block; color: var(--muted); font-size: 13px; line-height: 1.5; }
 
 .item { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
@@ -154,7 +155,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
       </div>
     </fieldset>
     <fieldset id="feverSet" hidden>
-      <legend>孩子有發燒，或確診腸病毒、流感、新冠、諾羅、登革熱、水痘或其他校園傳染病嗎？</legend>
+      <legend>孩子有發燒，或確診腸病毒、流感、登革熱、諾羅、水痘或其他校園傳染病嗎？</legend>
       <div class="seg">
         <label><input type="radio" name="fever" value="no" checked><span>沒有</span></label>
         <label><input type="radio" name="fever" value="yes"><span>有（已發燒／已確診）</span></label>
@@ -206,7 +207,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     <h2 id="h-out">傳給老師</h2>
     <p class="sub" id="outSub">內容會隨上方填寫即時更新。</p>
     <textarea id="msg" readonly aria-label="請假訊息預覽"></textarea>
-    <button class="btn" id="copy" type="button">複製請假訊息，並貼給老師，請假才算完成！</button>
+    <button class="btn" id="copy" type="button">複製請假訊息，回到line貼給老師，請假才算完成！</button>
     <p class="copied" id="copied" role="status"></p>
   </section>
 
@@ -218,7 +219,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
 
   <div class="finish">
     <div class="stamp" aria-hidden="true">家長<br>確認</div>
-    <p id="finishText">傳給老師後就完成了，謝謝 😊</p>
+    <p id="finishText">複製請假訊息，回到line貼給老師，請假才算完成！謝謝 😊</p>
   </div>
 </div>
 
@@ -325,11 +326,11 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
 
   function renderSteps() {
     var n = needs();
-    var html = '<li>填寫請假資訊，複製後傳給老師</li>';
+    var html = '<li>填寫請假資訊，複製後回到line貼給老師</li>';
     if (n.lunch) html += '<li>請填「午餐停餐申請」，並截圖傳給老師<small>請假 3 天以上需要，請於前一天中午 12:00 前提出。若有填報困難，請洽導師。</small></li>';
     if (n.report) html += '<li>最後填「校園傳染病通報系統」，並截圖傳給老師<small>有發燒或確診時需要。若有填報困難，請洽導師。</small></li>';
-    if (n.paper) html += '<li class="star">事假超過 5 個上課日（共 ' + spanDays() + ' 天），另填紙本假單<small>上課日不含週末與國定假日。請洽導師拿紙本假單。</small></li>';
-    else if (state.type === "事假" && state.days === "long") html += '<li class="star">若事假超過 5 個上課日，需另填紙本假單<small>上課日不含週末與國定假日。請洽導師拿紙本假單。填好日期後，這裡會自動計算。</small></li>';
+    if (n.paper) html += '<li class="star"><span class="mk" aria-hidden="true">*</span>事假超過 5 個上課日（共 ' + spanDays() + ' 天），另填紙本假單<small>上課日不含週末與國定假日。請洽導師拿紙本假單。</small></li>';
+    else if (state.type === "事假" && state.days === "long") html += '<li class="star"><span class="mk" aria-hidden="true">*</span>若事假超過 5 個上課日，需另填紙本假單<small>上課日不含週末與國定假日。請洽導師拿紙本假單。填好日期後，這裡會自動計算。</small></li>';
     $("#steps").innerHTML = html;
     $("#count").textContent = (1 + (n.lunch ? 1 : 0) + (n.report ? 1 : 0) + (n.paper ? 1 : 0)) + " 項";
   }
@@ -372,7 +373,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     if (n.lunch) todo.push("「午餐停餐申請」");
     if (n.report) todo.push("「傳染病通報系統」");
     if (todo.length) lines.push("*另須填寫" + todo.join("及") + "，填完截圖給老師。");
-    if (n.paper) lines.push("事假超過5個上課日（共" + spanDays() + "天）：需另填紙本假單，向導師領取");
+    if (n.paper) lines.push("*事假超過5個上課日（共" + spanDays() + "天）：需另填紙本假單，請向導師領取。");
     $("#msg").value = lines.join("\n");
     save();
   }
@@ -389,11 +390,11 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     var n = needs();
     var extra = n.lunch || n.report || n.paper;
     $("#finishText").textContent = extra
-      ? "複製請假訊息，貼給老師並附上表單截圖，請假才算完成！"
-      : "複製請假訊息，並貼給老師，請假才算完成！謝謝 😊";
+      ? "複製請假訊息，回到line貼給老師並附上表單截圖，請假才算完成！"
+      : "複製請假訊息，回到line貼給老師，請假才算完成！謝謝 😊";
     $("#copy").textContent = extra
-      ? "複製請假訊息，並貼給老師，請注意下面還有表單需要填寫，請假尚未完成！"
-      : "複製請假訊息，並貼給老師，請假才算完成！";
+      ? "複製請假訊息，回到line貼給老師；請注意下面還有表單需要填寫，請假尚未完成！"
+      : "複製請假訊息，回到line貼給老師，請假才算完成！";
     renderSteps();
     renderLast();
     buildMsg();
@@ -415,8 +416,8 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     var n = needs();
     function ok() {
       out.textContent = (n.lunch || n.report || n.paper)
-        ? "已複製，請貼給老師。請注意下面還有表單需要填寫，請假尚未完成！"
-        : "已複製，請貼給老師，請假才算完成！";
+        ? "已複製，請回到line貼給老師。請注意下面還有表單需要填寫，請假尚未完成！"
+        : "已複製，請回到line貼給老師，請假才算完成！";
     }
     function fallback() {
       ta.focus(); ta.select();
