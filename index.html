@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>✏️楠梓國小班級請假單</title>
+<title>楠梓國小班級請假單</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -66,6 +66,7 @@ h2 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: .04em; scroll
 fieldset { border: 0; padding: 0; margin: 0; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
 legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; margin-bottom: 8px; }
 .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.seg3 { grid-template-columns: repeat(3, 1fr); }
 .seg label { position: relative; }
 .seg input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
 .seg span {
@@ -130,7 +131,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
   <header>
     <p class="kicker">楠梓國小家長專用</p>
     <h1>楠梓國小班級請假單</h1>
-    <p>由上往下填寫，至最後一步完成後就結束。</p>
+    <p>由上往下填寫，最後一步完成後就結束，不用再回到這一頁。</p>
   </header>
 
   <section aria-labelledby="h-type">
@@ -144,7 +145,8 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     </fieldset>
     <fieldset>
       <legend>請假天數</legend>
-      <div class="seg">
+      <div class="seg seg3">
+        <label><input type="radio" name="days" value="part"><span>未滿 1 日</span></label>
         <label><input type="radio" name="days" value="short" checked><span>1–2 天</span></label>
         <label><input type="radio" name="days" value="long"><span>3 天以上</span></label>
       </div>
@@ -176,8 +178,12 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
       <div class="field">
         <span class="lab" id="dlab">請假日期</span>
         <div class="dates" role="group" aria-labelledby="dlab">
-          <div class="field"><label for="d1">開始日</label><input type="date" id="d1"></div>
-          <div class="field"><label for="d2">結束日（只請一天可不填）</label><input type="date" id="d2"></div>
+          <div class="field"><label for="d1" id="d1l">開始日</label><input type="date" id="d1"></div>
+          <div class="field" id="d2wrap"><label for="d2">結束日（只請一天可不填）</label><input type="date" id="d2"></div>
+        </div>
+        <div class="dates" id="timeRow" role="group" aria-label="請假時間" hidden>
+          <div class="field"><label for="t1">開始時間</label><input type="time" id="t1"></div>
+          <div class="field"><label for="t2">結束時間</label><input type="time" id="t2"></div>
         </div>
       </div>
       <div class="field">
@@ -204,7 +210,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
 
   <section aria-labelledby="h-last" id="last" hidden>
     <h2 id="h-last">最後一步</h2>
-    <p class="notice">下面的表單在別的網站。請把填寫完成的畫面截圖傳給鄭老師就完成了。</p>
+    <p class="notice">下面的表單在別的網站。填完不用回到這一頁，直接把填寫完成的畫面截圖傳給鄭老師就完成了。</p>
     <div id="lastItems" style="display:flex;flex-direction:column;gap:10px"></div>
   </section>
 
@@ -238,7 +244,14 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     var w = "日一二三四五六"[new Date(p[0], p[1] - 1, p[2]).getDay()];
     return p[1] + "/" + p[2] + "（週" + w + "）";
   }
+  function tfmt(v) { return v ? v.replace(/^0/, "") : ""; }
   function dateText() {
+    if (state.days === "part") {
+      var d = fmt($("#d1").value);
+      var a1 = tfmt($("#t1").value), b1 = tfmt($("#t2").value);
+      var tm = (a1 || b1) ? (a1 + "-" + b1) : "";
+      return (d + " " + tm).trim();
+    }
     var a = fmt($("#d1").value), b = fmt($("#d2").value);
     if (a && b && $("#d1").value !== $("#d2").value) return a + "～" + b;
     return a || b;
@@ -256,7 +269,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
       localStorage.setItem(KEY, JSON.stringify({
         ts: Date.now(),
         type: radio("type"), days: radio("days"), fever: radio("fever"), hw: radio("hw"),
-        who: $("#who").value, d1: $("#d1").value, d2: $("#d2").value, why: $("#why").value
+        who: $("#who").value, d1: $("#d1").value, d2: $("#d2").value, t1: $("#t1").value, t2: $("#t2").value, why: $("#why").value
       }));
     } catch (e) {}
   }
@@ -270,12 +283,14 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
       $("#who").value = s.who || "";
       $("#d1").value = s.d1 || "";
       $("#d2").value = s.d2 || "";
+      $("#t1").value = s.t1 || "";
+      $("#t2").value = s.t2 || "";
       $("#why").value = s.why || "";
     } catch (e) {}
   }
   function reset() {
     try { localStorage.removeItem(KEY); } catch (e) {}
-    ["#who", "#d1", "#d2", "#why"].forEach(function (s) { $(s).value = ""; });
+    ["#who", "#d1", "#d2", "#t1", "#t2", "#why"].forEach(function (s) { $(s).value = ""; });
     Array.prototype.forEach.call(document.querySelectorAll('input[type="radio"]'), function (r) { r.checked = r.defaultChecked; });
     $("#copied").textContent = "";
     refresh();
@@ -286,7 +301,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
   function renderSteps() {
     var n = needs();
     var html = '<li>填寫請假資訊，複製後傳給鄭老師</li>';
-    if (n.lunch) html += '<li>記得填「午餐停餐申請」<small>請假 3 天以上需要，請於前一天中午 12:00 前提出。填完截圖給老師。</small></li>';
+    if (n.lunch) html += '<li>最後填「午餐停餐申請」<small>請假 3 天以上需要，請於前一天中午 12:00 前提出。填完截圖給老師。</small></li>';
     if (n.report) html += '<li>最後填「校園傳染病通報系統」<small>有發燒或確診時需要。填完截圖給老師。</small></li>';
     $("#steps").innerHTML = html;
     $("#count").textContent = (1 + (n.lunch ? 1 : 0) + (n.report ? 1 : 0)) + " 項";
@@ -313,7 +328,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
 
   function buildMsg() {
     var n = needs();
-    var head = "【" + state.type + "・" + (state.days === "long" ? "3天以上" : "1-2天") + (n.report ? "・發燒/傳染病" : "") + "】";
+    var head = "【" + state.type + "・" + (state.days === "long" ? "3天以上" : state.days === "part" ? "未滿1日" : "1-2天") + (n.report ? "・發燒/傳染病" : "") + "】";
     var lines = [
       head,
       "1.座號/姓名：" + $("#who").value.trim(),
@@ -332,6 +347,10 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     state.days = radio("days");
     state.fever = state.type === "病假" ? radio("fever") : "no";
     $("#feverSet").hidden = state.type !== "病假";
+    var part = state.days === "part";
+    $("#timeRow").hidden = !part;
+    $("#d2wrap").hidden = part;
+    $("#d1l").textContent = part ? "請假日" : "開始日";
     var n = needs();
     $("#finishText").textContent = (n.lunch || n.report)
       ? "傳給鄭老師，再完成最後一步並截圖給老師，就全部完成了，謝謝 😊"
@@ -344,7 +363,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
   document.addEventListener("change", function (e) {
     var t = e.target;
     if (t.matches('input[name="type"], input[name="days"], input[name="fever"]')) { refresh(); return; }
-    if (t.matches('input[name="hw"], #d1, #d2')) buildMsg();
+    if (t.matches('input[name="hw"], #d1, #d2, #t1, #t2')) buildMsg();
   });
   document.addEventListener("input", function (e) {
     if (e.target.matches("#who, #why")) buildMsg();
