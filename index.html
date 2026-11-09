@@ -202,7 +202,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
 
   <section class="out" aria-labelledby="h-out">
     <h2 id="h-out">傳給老師</h2>
-    <p class="sub">內容會隨上方填寫即時更新。確認後複製，貼給鄭老師。</p>
+    <p class="sub">內容會隨上方填寫即時更新。確認後複製，貼給老師。</p>
     <textarea id="msg" readonly aria-label="請假訊息預覽"></textarea>
     <button class="btn" id="copy" type="button">複製請假訊息</button>
     <p class="copied" id="copied" role="status"></p>
@@ -210,13 +210,13 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
 
   <section aria-labelledby="h-last" id="last" hidden>
     <h2 id="h-last">最後一步</h2>
-    <p class="notice">下面的表單在別的網站。填完不用回到這一頁，直接把填寫完成的畫面截圖傳給鄭老師就完成了。</p>
+    <p class="notice">下面的表單在別的網站，填完後把完成的畫面截圖傳給老師就完成了。</p>
     <div id="lastItems" style="display:flex;flex-direction:column;gap:10px"></div>
   </section>
 
   <div class="finish">
     <div class="stamp" aria-hidden="true">家長<br>確認</div>
-    <p id="finishText">傳給鄭老師後就完成了，謝謝 😊</p>
+    <p id="finishText">傳給老師後就完成了，謝謝 😊</p>
   </div>
 </div>
 
@@ -353,8 +353,8 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     $("#d1l").textContent = part ? "請假日" : "開始日";
     var n = needs();
     $("#finishText").textContent = (n.lunch || n.report)
-      ? "傳給鄭老師，再完成最後一步並截圖給老師，就全部完成了，謝謝 😊"
-      : "傳給鄭老師後就完成了，謝謝 😊";
+      ? "傳給老師，完成表單並截圖給老師，就全部完成了，謝謝 😊"
+      : "傳給老師後就完成了，謝謝 😊";
     renderSteps();
     renderLast();
     buildMsg();
