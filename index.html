@@ -115,7 +115,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
   width: 100%; min-height: 190px; padding: 14px; font: 15px/1.7 var(--font-body); color: var(--ink);
   background: var(--card); border: 1.5px dashed var(--accent); border-radius: var(--radius); resize: vertical;
 }
-.out .btn { align-self: stretch; }
+.out .btn { align-self: stretch; text-align: center; line-height: 1.45; padding-block: 12px; }
 .copied { color: var(--ok); font-weight: 700; font-size: 14px; min-height: 1.5em; margin: 0; }
 
 .finish { display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: var(--radius); background: var(--accent-soft); }
@@ -152,7 +152,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
       </div>
     </fieldset>
     <fieldset id="feverSet" hidden>
-      <legend>孩子有發燒，或確診腸病毒、流感、登革熱、諾羅、水痘等校園傳染病嗎？</legend>
+      <legend>孩子有發燒，或確診腸病毒、流感、登革熱、諾羅、水痘或其他校園傳染病嗎？</legend>
       <div class="seg">
         <label><input type="radio" name="fever" value="no" checked><span>沒有</span></label>
         <label><input type="radio" name="fever" value="yes"><span>有（已發燒／已確診）</span></label>
@@ -173,7 +173,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     <div class="form">
       <div class="field">
         <label for="who">座號／姓名</label>
-        <input type="text" id="who" placeholder="例：30號 王小楠" autocomplete="off">
+        <input type="text" id="who" placeholder="例：12號 王小明" autocomplete="off">
       </div>
       <div class="field">
         <span class="lab" id="dlab">請假日期</span>
@@ -202,15 +202,15 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
 
   <section class="out" aria-labelledby="h-out">
     <h2 id="h-out">傳給老師</h2>
-    <p class="sub">內容會隨上方填寫即時更新。確認後複製，貼給老師。</p>
+    <p class="sub" id="outSub">內容會隨上方填寫即時更新。</p>
     <textarea id="msg" readonly aria-label="請假訊息預覽"></textarea>
-    <button class="btn" id="copy" type="button">複製請假訊息，請注意請假還沒完成，下面還有!</button>
+    <button class="btn" id="copy" type="button">複製請假訊息，並貼給老師，請假才算完成！</button>
     <p class="copied" id="copied" role="status"></p>
   </section>
 
   <section aria-labelledby="h-last" id="last" hidden>
     <h2 id="h-last">最後一步</h2>
-    <p class="notice" id="lastNotice">下面的表單在別的網站。填完不用回到這一頁，直接把填寫完成的畫面截圖傳給老師就完成了。</p>
+    <p class="notice" id="lastNotice">下面的表單在別的網站。填完不用回到這一頁，直接把填寫完成的畫面截圖傳給老師就完成了。若有填報困難，請洽導師。</p>
     <div id="lastItems" style="display:flex;flex-direction:column;gap:10px"></div>
   </section>
 
@@ -307,10 +307,10 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
   function renderSteps() {
     var n = needs();
     var html = '<li>填寫請假資訊，複製後傳給老師</li>';
-    if (n.lunch) html += '<li>最後填「午餐停餐申請」<small>請假 3 天以上需要，請於前一天中午 12:00 前提出。填完截圖給老師。</small></li>';
-    if (n.report) html += '<li>最後填「校園傳染病通報系統」<small>有發燒或確診時需要。填完截圖給老師。</small></li>';
+    if (n.lunch) html += '<li>請填「午餐停餐申請」<small>請假 3 天以上需要，請於前一天中午 12:00 前提出。填完截圖給老師，若有填報困難，請洽導師。</small></li>';
+    if (n.report) html += '<li>最後填「校園傳染病通報系統」<small>有發燒或確診時需要。填完截圖給老師，若有填報困難，請洽導師。</small></li>';
     if (n.paper) html += '<li>事假超過 5 天，另填紙本假單<small>請洽導師拿紙本假單。</small></li>';
-    else if (state.type === "事假" && state.days === "long") html += '<li>若事假超過 5 天，需另填紙本假單<small>請洽導師拿紙本假單。填好日期後，系統會自動判斷。</small></li>';
+    else if (state.type === "事假" && state.days === "long") html += '<li>若事假超過 5 天，需另填紙本假單<small>請洽導師拿紙本假單。填好日期後，這裡會自動判斷。</small></li>';
     $("#steps").innerHTML = html;
     $("#count").textContent = (1 + (n.lunch ? 1 : 0) + (n.report ? 1 : 0) + (n.paper ? 1 : 0)) + " 項";
   }
@@ -332,7 +332,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     }
     if (n.report) {
       html += '<div class="item"><span class="tag">發燒／傳染病</span><h3>校園傳染病通報系統</h3>' +
-        '<p>孩子有發燒，或確診腸病毒、流感等校園傳染病，請家長協助填寫通報。</p>' +
+        '<p>孩子有發燒，或確診腸病毒、流感、登革熱、諾羅、水痘或其他校園傳染病，請家長協助填寫通報。</p>' +
         '<a class="btn" href="' + REPORT_URL + '" target="_blank" rel="noopener">開啟傳染病通報系統</a></div>';
     }
     $("#lastItems").innerHTML = html;
@@ -349,8 +349,10 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
       "3.請假原因：" + $("#why").value.trim(),
       "4.作業是否需要放警衛室：" + radio("hw")
     ];
-    if (n.lunch) lines.push("午餐停餐申請：稍後填寫，填完截圖給老師");
-    if (n.report) lines.push("傳染病通報系統：稍後填寫，填完截圖給老師");
+    var todo = [];
+    if (n.lunch) todo.push("「午餐停餐申請」");
+    if (n.report) todo.push("「傳染病通報系統」");
+    if (todo.length) lines.push("*另須填寫" + todo.join("及") + "，填完截圖給老師。");
     if (n.paper) lines.push("事假超過5天：需另填紙本假單，向導師領取");
     $("#msg").value = lines.join("\n");
     save();
@@ -366,9 +368,13 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     $("#d2wrap").hidden = part;
     $("#d1l").textContent = part ? "請假日" : "開始日";
     var n = needs();
-    $("#finishText").textContent = (n.lunch || n.report || n.paper)
-      ? "傳給老師，再完成最後一步並截圖給老師，就全部完成了，謝謝 😊"
-      : "傳給老師後就完成了，謝謝 😊";
+    var extra = n.lunch || n.report || n.paper;
+    $("#finishText").textContent = extra
+      ? "複製請假訊息，貼給老師並附上表單截圖，請假才算完成！"
+      : "複製請假訊息，並貼給老師，請假才算完成！謝謝 😊";
+    $("#copy").textContent = extra
+      ? "複製請假訊息，並貼給老師，請注意下面還有表單需要填寫，請假尚未完成！"
+      : "複製請假訊息，並貼給老師，請假才算完成！";
     renderSteps();
     renderLast();
     buildMsg();
@@ -389,9 +395,9 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     var ta = $("#msg"), out = $("#copied");
     var n = needs();
     function ok() {
-      out.textContent = (n.lunch || n.report)
-        ? "已複製，貼給老師後，請接著做下方的「最後一步」。"
-        : "已複製，可以貼給老師了。";
+      out.textContent = (n.lunch || n.report || n.paper)
+        ? "已複製，請貼給老師。請注意下面還有表單需要填寫，請假尚未完成！"
+        : "已複製，請貼給老師，請假才算完成！";
     }
     function fallback() {
       ta.focus(); ta.select();
