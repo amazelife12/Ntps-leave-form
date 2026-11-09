@@ -310,7 +310,7 @@ legend { padding: 0; font-size: 14px; color: var(--muted); font-weight: 500; mar
     if (n.lunch) html += '<li>最後填「午餐停餐申請」<small>請假 3 天以上需要，請於前一天中午 12:00 前提出。填完截圖給老師。</small></li>';
     if (n.report) html += '<li>最後填「校園傳染病通報系統」<small>有發燒或確診時需要。填完截圖給老師。</small></li>';
     if (n.paper) html += '<li>事假超過 5 天，另填紙本假單<small>請洽導師拿紙本假單。</small></li>';
-    else if (state.type === "事假" && state.days === "long") html += '<li>若事假超過 5 天，需另填紙本假單<small>請洽導師拿紙本假單。填好日期後，這裡會自動判斷。</small></li>';
+    else if (state.type === "事假" && state.days === "long") html += '<li>若事假超過 5 天，需另填紙本假單<small>請洽導師拿紙本假單。填好日期後，系統會自動判斷。</small></li>';
     $("#steps").innerHTML = html;
     $("#count").textContent = (1 + (n.lunch ? 1 : 0) + (n.report ? 1 : 0) + (n.paper ? 1 : 0)) + " 項";
   }
